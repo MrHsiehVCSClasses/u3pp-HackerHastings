@@ -8,7 +8,15 @@ public class PalindromeTester {
      * @return true if the string is a palindrome
      */
     public static boolean isPalindrome(String s) {
-
+        String reverse = "";
+        for(int i = s.length() - 1; i >= 0; i--){
+            reverse += s.charAt(i);
+        }
+        if(s.equals(reverse)){
         return true;
+     } else{
+        return false;
+     }
+
     }
 }
