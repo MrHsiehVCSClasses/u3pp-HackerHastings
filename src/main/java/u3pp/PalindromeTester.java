@@ -12,6 +12,8 @@ public class PalindromeTester {
         for(int i = s.length() - 1; i >= 0; i--){
             reverse += s.charAt(i);
         }
+        s = s.toLowerCase();
+        reverse = reverse.toLowerCase();
         if(s.equals(reverse)){
         return true;
      } else{

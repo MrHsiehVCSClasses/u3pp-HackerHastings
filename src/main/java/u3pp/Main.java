@@ -1,16 +1,23 @@
 package u3pp;
+import java.util.Scanner;
 
 public class Main 
 {
     public static void main(String[] args) {
         
-        String myPenis = "penis";
-        String myBallab = "ballab";
-        PalindromeTester myPalindromeTester = new PalindromeTester();
+        // String myPenis = "penis";
+        // String myBallab = "Ballab";
+        // PalindromeTester myPalindromeTester = new PalindromeTester();
+        Deck myDeck = new Deck();
+        Card[] hand2 = { new Card("Clubs", "Ace"), new Card("Spades", "Jack") };
+        Scanner myScanner = new Scanner(System.in);  
+        Blackjack myBlackjack = new Blackjack();
+        myBlackjack.Play(myScanner);
         // Use this space to test your code, or actually run your project
-        System.out.println("\n\nHi! This is an empty project.\nYour code will start running from Main.java.\nIt may be daunting to start a project from scratch, but try to have fun with it! :)\n");
-        System.out.println(myPalindromeTester.isPalindrome(myPenis));
-        System.out.println(myPalindromeTester.isPalindrome(myBallab));
+        
+        
+       
+        
     }
 
 }
