@@ -1,23 +1,22 @@
 package u3pp;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Blackjack {
     private Deck myDeck = new Deck();
     private Card[] userHand;
     private Card[] dealerHand;
-    private boolean play;
+    private boolean runPlay;
 
             //This should instantiate any instance variables you have, especially your `Deck`.
     public Blackjack(){
         myDeck.shuffle();
         userHand = new Card[8];
         dealerHand = new Card[8];
-        play = false;
+        runPlay = false;
     }
 
-            //The method to be called to actually play a game. This is where you implement the flow of the **Gameplay**. The output should clearly communicate what is happening - cards dealt, comparisons made, etc.
-    public void Play(Scanner scanner){
+            //The method to be called to actually runPlay a game. This is where you implement the flow of the **GamerunPlay**. The output should clearly communicate what is happening - cards dealt, comparisons made, etc.
+    public void play(Scanner scanner){
         int userHandCount = 2;
         int dealerHandCount = 2;
 
@@ -27,17 +26,18 @@ public class Blackjack {
         if(answer.equals("y") || answer.equals("Y")){
             System.out.println("Alright Welles, we made it to The Afterlife. Don't lose everything! Be back in an hour. Also, don't fall for the Cyber-Women, ");
             System.out.println("their affection is simply a program.");
-            play = true;
+            runPlay = true;
         } else if (answer.equals("n") || answer.equals("N")){
             System.out.println("Tf you wanna do then? U got no hoes! Man I'm goin without you. Meet me at The Afterlife.");
-            play = false;
+            runPlay = true;
         } else{
-            play = false;
+            System.out.println("You don't have to be an asshole");
+            runPlay = false;
         }
 
 
-
-        while(play == true){
+        // while loop for core gamerunPlay loop
+        while(runPlay == true){
             userHandCount = 2;
             dealerHandCount = 2;
             for(int i = 0; i < userHand.length; i++){
@@ -51,23 +51,28 @@ public class Blackjack {
             System.out.println("Your Hand: " + userHand[0] + " " + userHand[1]);
             System.out.println("Dealer's Hand: " + dealerHand[0] + " " + dealerHand[1]);
             
+            // first case if both runPlayers got blackjack
             if(isBlackjack(userHand) == true && isBlackjack(dealerHand) == true){
                 System.out.println("It's a tie, choom.");
                 System.out.println("User Pushes");
+                // This segment is used multiple times; it loops to first question if user inputs a bugged input
+                // It also allows user to exit the game or to runPlay again
                 boolean question = true;
                 while(question == true){
                     System.out.println("Alright choom, another round? (Y)es / (N)o");
                     String answer1 = scanner.nextLine();
                     if(answer1.equals("y") || answer1.equals("Y") || answer1.equals("yes") || answer1.equals("Yes")){
                         question = false;
-                        play = true;
+                        runPlay = true;
                     } else if (answer1.equals("n") || answer1.equals("N") || answer1.equals("no") || answer.equals("No")){
+                        System.out.println("Okay then, goodbye Eric Hsieh");
                         question = false;
-                        play = false;
+                        runPlay = false;
                     } else {
                         System.out.println("You're speaking in tongues, choom! Gimme something!");
                     }
                 }
+                //second case where only user has blackjack
             } else if(isBlackjack(userHand) == true && isBlackjack(dealerHand) == false) {
                 System.out.println("You Blackjacked choom!");
                 System.out.println("User Wins");
@@ -77,14 +82,16 @@ public class Blackjack {
                     String answer1 = scanner.nextLine();
                     if(answer1.equals("y") || answer1.equals("Y") || answer1.equals("yes") || answer1.equals("Yes")){
                         question = false;
-                        play = true;
+                        runPlay = true;
                     } else if (answer1.equals("n") || answer1.equals("N") || answer1.equals("no") || answer.equals("No")){
+                        System.out.println("Okay then, goodbye Eric Hsieh");
                         question = false;
-                        play = false;
+                        runPlay = false;
                     } else {
                         System.out.println("You're speaking in tongues, choom! Gimme something!");
                     }
                 }
+                // Third case where only dealer has blackjack
             } else if(isBlackjack(dealerHand) == true && isBlackjack(userHand) == false) {
                 System.out.println("I Blackjacked you, choom.");
                 System.out.println("User Loses");
@@ -94,14 +101,16 @@ public class Blackjack {
                     String answer1 = scanner.nextLine();
                     if(answer1.equals("y") || answer1.equals("Y") || answer1.equals("yes") || answer1.equals("Yes")){
                         question = false;
-                        play = true;
+                        runPlay = true;
                     } else if (answer1.equals("n") || answer1.equals("N") || answer1.equals("no") || answer1.equals("No")){
+                        System.out.println("Okay then, goodbye Eric Hsieh");
                         question = false;
-                        play = false;
+                        runPlay = false;
                     } else {
                         System.out.println("You're speaking in tongues, choom! Gimme something!");
                     }
                 }
+                // Fourth and most often case where neither have blackjack
             } else if(isBlackjack(userHand) == false && isBlackjack(dealerHand) == false) {
                         
                         boolean question = true;
@@ -118,7 +127,7 @@ public class Blackjack {
                                 System.out.println("You're speaking in tongues, choom! Gimme something!");
                             }
                         }
-                        
+                        // Loop that runs to allow user to keep hitting to their heart's desire
                         while(answer1.equals("h") || answer1.equals("H") || answer1.equals("hit") || answer1.equals("Hit")){
                             userHandCount ++;
                             for(int i = 0; i<userHand.length; i++){
@@ -128,12 +137,13 @@ public class Blackjack {
                                 }
                             }
                             
-                            System.out.println("Your Hand: ");
+                            
+         
+                            if(isBust(userHand)){
+                                System.out.println("Your Hand: ");
                             for(int i = 0; i < userHandCount; i++){
                                 System.out.print(userHand[i] + " ");
                             }
-         
-                            if(isBust(userHand)){
                                 System.out.println("You busted choom! Get good.");
                                 System.out.println("User Loses");
                                 boolean question1 = true;
@@ -141,21 +151,39 @@ public class Blackjack {
                                     System.out.println("Alright choom, another round? (Y)es / (N)o");
                                     String answer2 = scanner.nextLine();
                                     if(answer2.equals("y") || answer2.equals("Y") || answer2.equals("yes") || answer2.equals("Yes")){
-                                        play = true;
+                                        runPlay = true;
                                         question1 = false;
                                         answer1 = "pebis";
                                     } else if (answer2.equals("n") || answer2.equals("N") || answer2.equals("no") || answer2.equals("No")){
+                                        System.out.println("Okay then, goodbye Eric Hsieh");
                                         question1 = false;
-                                        play = false;
+                                        runPlay = false;
                                     } else {
                                         System.out.println("You're speaking in tongues, choom! Gimme something!");
                                     }
                                 }
-                            } else {
+                            } else { // If user doesn't bust, prints hand and asks if they want to hit again 
+                                System.out.println("Your Hand: ");
+                            for(int i = 0; i < userHandCount; i++){
+                                System.out.print(userHand[i] + " ");
+                            }
+                            boolean question7 = true;
+                            while(question7 == true){
+                                System.out.println("We hittin'(H)it or stayin'? (S)tay");
+                                    answer1 = scanner.nextLine();
+                                
+                                if(answer1.equals("h") || answer1.equals("H") || answer1.equals("hit") || answer1.equals("Hit")){
+                                    question7 = false;
+                                } else if (answer1.equals("s") || answer1.equals("S") || answer1.equals("stay") || answer1.equals("Stay")){
+                                    question7 = false;
 
+                                } else {
+                                    System.out.println("You're speaking in tongues, choom! Gimme something!");
+                                }
+                              }
                             }
                         } 
-                    
+                    //If user doesn't bust while hitting, this will run. 
             while(answer1.equals("s") || answer1.equals("S") || answer1.equals("stay") || answer.equals("Stay")){
                 while(calcPoints(dealerHand) < 17){
                         dealerHandCount ++;
@@ -179,17 +207,20 @@ public class Blackjack {
                                 String answer3 = scanner.nextLine();
                                 if(answer3.equals("y") || answer3.equals("Y") || answer3.equals("yes") || answer3.equals("Yes")){
                                     question2 = false;
-                                    play = true;
+                                    runPlay = true;
                                     answer1 = "shid";
                                 } else if (answer3.equals("n") || answer3.equals("N") || answer3.equals("no") || answer3.equals("No")){
+                                    System.out.println("Okay then, goodbye Eric Hsieh");
                                     question2 = false;
-                                    play = false;
+                                    runPlay = false;
                                 } else {
                                     System.out.println("You're speaking in tongues, choom! Gimme something!");
                                 }
                             }
                         }
                 }
+                // If the dealer busts, and the runPlayer wants to runPlay again, this if statement makes it so that it doesn't run 
+                // unless the dealer didn't bust.
                 if(answer1.equals("s") || answer1.equals("S") || answer1.equals("stay") || answer.equals("Stay")){
                 System.out.println("Your Hand: ");
                     for(int i = 0; i < userHandCount; i++){
@@ -206,11 +237,12 @@ public class Blackjack {
                     String answer4 = scanner.nextLine();
                     if(answer4.equals("y") || answer4.equals("Y") || answer4.equals("yes") || answer4.equals("Yes")){
                         question3 = false;
-                        play = true;
+                        runPlay = true;
                         answer1 = "shid";
                     } else if (answer4.equals("n") || answer4.equals("N") || answer4.equals("no") || answer4.equals("No")){
+                        System.out.println("Okay then, goodbye Eric Hsieh");
                         question3 = false;
-                        play = false;
+                        runPlay = false;
                     } else {
                         System.out.println("You're speaking in tongues, choom! Gimme something!");
                     }
